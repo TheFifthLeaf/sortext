@@ -1,11 +1,12 @@
 import os
 import sys
-import argparse
+import argparse as arps
 
 
 def parser():
-    parser = argparse.ArgumentParser(
+    parser = arps.ArgumentParser(
         usage=f"{os.path.basename(__file__)} [--help] [path]",
+        formatter_class=lambda prog: arps.HelpFormatter(prog, max_help_position=52)
     )
     parser.add_argument(
         "path",
@@ -20,8 +21,14 @@ def parser():
         action="store_true",
         help="Enable recursive sort"
     )
+    parser.add_argument(
+        "-o", "--only",
+        type=str,
+        nargs="*",
+        help="Takes the list of extensions to sort"
+    )
     args = parser.parse_args()
-    return (args.path, args.recursive)
+    return (args.path, args.recursive, args.only)
 
 
 def find_all_files(path, directories, files):
@@ -33,7 +40,7 @@ def find_all_files(path, directories, files):
             find_all_files(path, temp_dirs, files)
 
 
-def main(path, recursive):
+def main(path, recursive, only):
 
     _, directories, files = list(os.walk(path))[0]
     directories = [f"\\{directory}" for directory in directories]
@@ -41,6 +48,13 @@ def main(path, recursive):
 
     if recursive:
         find_all_files(path, directories, files)
+
+    if only:
+        only = [ext if ext == "" or ext[0] == "." else f".{ext}" for ext in only]
+        files = {
+            key: list(filter(lambda file: os.path.splitext(file)[1] in only, val))
+            for key, val in files.items()
+        }
 
     extensions = {
         directory: {os.path.splitext(file)[1]: [] for file in temp_files}
