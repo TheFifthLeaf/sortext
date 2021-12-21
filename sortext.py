@@ -58,15 +58,15 @@ def main(path, recursive, only, without):
     if only:
         only = [ext if ext == "" or ext[0] == "." else f".{ext}" for ext in only]
         files = {
-            key: list(filter(lambda file: os.path.splitext(file)[1] in only, val))
-            for key, val in files.items()
+            directory: list(filter(lambda file: os.path.splitext(file)[1] in only, temp_files))
+            for directory, temp_files in files.items()
         }
 
     if without:
         without = [ext if ext == "" or ext[0] == "." else f".{ext}" for ext in without]
         files = {
-            key: list(filter(lambda file: os.path.splitext(file)[1] not in without, val))
-            for key, val in files.items()
+            directory: list(filter(lambda file: os.path.splitext(file)[1] not in without, temp_files))
+            for directory, temp_files in files.items()
         }
 
     extensions = {
