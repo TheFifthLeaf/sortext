@@ -26,13 +26,13 @@ This program uses only the standard Python 3 library, so installing additional m
 To sort using .exe, please type:
 
 ```bash
-sortext [--help] [path]
+sortext [--help] [path [--recursive] [--only <list>] [--without <list>]]
 ```
 
 And using .py, type:
 
 ```bash
-python sortext.py [--help] [path]
+python sortext.py [--help] [path [--recursive] [--only <list>] [--without <list>]]
 ```
 
 ### Usage example
@@ -44,6 +44,23 @@ sortext --help
 This will sort all files in specified directory by extensions.
 ```bash
 sortext "D\MyFiles"
+```
+This will sort all files in nested directories. You can also use short "-r".
+```bash
+sortext "D\MyFiles" --recursive
+```
+This will sort only files with specified extensions. You can also use short "-o".
+```bash
+sortext "D\MyFiles" --only png jpg
+```
+This will sort only files without specified extensions. You can also use short "-w".
+```bash
+sortext "D\MyFiles" --without txt
+```
+You can also specify files without any extension.
+```bash
+sortext "D\MyFiles" --only ""
+sortext "D\MyFiles" --without ""
 ```
 
 ## Contributing
