@@ -30,7 +30,8 @@ def main(path):
 
     for ext in extensions.keys():
         dir_name = "undefined" if ext == "" else ext
-        os.mkdir(f"{path}\\{dir_name}")
+        if not os.path.exists(f"{path}\\{dir_name}"):
+            os.mkdir(f"{path}\\{dir_name}")
         for file in extensions[ext]:
             os.replace(f"{path}\\{file}{ext}", f"{path}\\{dir_name}\\{file}{ext}")
 
