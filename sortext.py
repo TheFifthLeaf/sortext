@@ -5,7 +5,8 @@ import argparse as arps
 
 def parser():
     parser = arps.ArgumentParser(
-        usage=f"{os.path.basename(__file__)} [--help] [path]",
+        usage=f"{os.path.basename(__file__)} [--help] [path [--recursive] [--only <list>] [--without <list>]]",
+        description="Sortext allows you to sort files by extensions.",
         formatter_class=lambda prog: arps.HelpFormatter(prog, max_help_position=52)
     )
     parser.add_argument(
