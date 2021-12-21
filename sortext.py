@@ -27,8 +27,14 @@ def parser():
         nargs="*",
         help="Takes the list of extensions to sort"
     )
+    parser.add_argument(
+        "-w", "--without",
+        type=str,
+        nargs="*",
+        help="Takes the list of extensions to skip"
+    )
     args = parser.parse_args()
-    return (args.path, args.recursive, args.only)
+    return (args.path, args.recursive, args.only, args.without)
 
 
 def find_all_files(path, directories, files):
@@ -40,7 +46,7 @@ def find_all_files(path, directories, files):
             find_all_files(path, temp_dirs, files)
 
 
-def main(path, recursive, only):
+def main(path, recursive, only, without):
 
     _, directories, files = list(os.walk(path))[0]
     directories = [f"\\{directory}" for directory in directories]
@@ -53,6 +59,13 @@ def main(path, recursive, only):
         only = [ext if ext == "" or ext[0] == "." else f".{ext}" for ext in only]
         files = {
             key: list(filter(lambda file: os.path.splitext(file)[1] in only, val))
+            for key, val in files.items()
+        }
+
+    if without:
+        without = [ext if ext == "" or ext[0] == "." else f".{ext}" for ext in without]
+        files = {
+            key: list(filter(lambda file: os.path.splitext(file)[1] not in without, val))
             for key, val in files.items()
         }
 
